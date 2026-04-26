@@ -1,4 +1,4 @@
-# UMDCTF
+# UMDCTF 2026
 
 # Pwn/ ipv8
 
