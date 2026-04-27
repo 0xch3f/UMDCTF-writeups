@@ -46,7 +46,7 @@ What is your Destination Host Address?
 Wrong RINE address!! Perhaps you were looking for 100.72.7.67
 ```
 
-So it’s pretending to build some kind of IPv8 packet header. It asks for four things - source prefix, source host, dest prefix, dest host. The ASN prefix inputs get ignored. The host address inputs seem to get validated. At the end it complains about a “RINE address.” Alright, time to throw it in `Binary Ninja`.
+So it’s pretending to build some kind of IPv8 packet header. It asks for four things - source prefix, source host, dest prefix, dest host. The ASN prefix inputs get ignored. The host address inputs seem to get validated. At the end it complains about a “RINE address.” Alright, time to throw it in [Binary Ninja](https://binary.ninja/), I used the free version of Binary Ninja for this challenge.
 
 ## Reversing
 
