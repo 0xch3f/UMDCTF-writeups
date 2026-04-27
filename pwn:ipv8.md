@@ -125,7 +125,7 @@ I mapped out the stack by tracing the `lea` instructions before each `scanf` cal
 [rbp - 0x90]  "0.0.0.0"                   initialized by main, passed to check_rine
               (8 bytes)
               (40 bytes of unused space)
-[rbp - 0x60]  Source host buffer           scanf("%s", ...) — UNBOUNDED
+[rbp - 0x60]  Source host buffer           scanf("%s", ...) - UNBOUNDED
               (48 bytes)
 [rbp - 0x30]  "0.0.0.0"                   another copy, never actually used
               (48 bytes of space up to rbp)
@@ -189,7 +189,7 @@ The fix: instead of returning to the start of `win` (`0x402f45`), return to `win
 main's ret:    RSP = 0 mod 16 (aligned)
                jumps to win+4
                (no push rbp)
-call system:   pushes return addr, RSP = 8 mod 16 at entry ✓
+call system:   pushes return addr, RSP = 8 mod 16 at entry
 ```
 
 ## Exploit
